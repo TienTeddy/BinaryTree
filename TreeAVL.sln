@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeAVL", "TreeAVL\TreeAVL.csproj", "{1FF55AFA-F306-4F03-8F04-EB4A88E262FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionsTree", "ActionsTree\ActionsTree.csproj", "{27FB93D0-B6E0-4AB1-B3B0-C0C2005DCD08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FF55AFA-F306-4F03-8F04-EB4A88E262FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF55AFA-F306-4F03-8F04-EB4A88E262FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF55AFA-F306-4F03-8F04-EB4A88E262FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF55AFA-F306-4F03-8F04-EB4A88E262FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27FB93D0-B6E0-4AB1-B3B0-C0C2005DCD08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27FB93D0-B6E0-4AB1-B3B0-C0C2005DCD08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27FB93D0-B6E0-4AB1-B3B0-C0C2005DCD08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27FB93D0-B6E0-4AB1-B3B0-C0C2005DCD08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E4CEC75-340E-4479-8C21-946EE7D48656}
+	EndGlobalSection
+EndGlobal

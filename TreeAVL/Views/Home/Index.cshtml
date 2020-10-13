@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link href="~/Content/index.css" rel="stylesheet" />
+<link href="~/Content/spinner.css" rel="stylesheet" />
+<div class="content">
+    <div class="row">
+        <div class="col-sm-2 row" style="background-color: khaki;">
+            <div class="col-sm-6">
+                <h3><strong>Array error array actions dư 1 index cuối</strong></h3>
+                <small><strong id="number-array">NUMBER[...]:&nbsp;9</strong></small>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-2">
+                <!--empty-->
+            </div>
+        </div>
+        <div class="col-sm-7 row" id="array">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-11" id="col-sm-11">
+                <div id='arr-1'>
+                    <input class="input-sm form-control inp" id='array-0' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-1' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-2' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-3' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-4' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-5' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-6' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-7' onkeypress='validate(event)' />
+                    <input class="input-sm form-control inp" id='array-8' onkeypress='validate(event)' />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div>
+                <!--Add-->
+                <div class="tron"><a href="#" id="add_" onclick="add_Array()"><i style='font-size:35px' class='fas'>&#xf0fe;</i></a></div>
+                <!--Edit-->
+                <div class="tron"><a href="#" id="edit_"><i style='font-size:33px;color:darkgreen ' class='fas'>&#xf044;</i></a></div>
+                <!--Delete-->
+                <div class="tron"><a href="#" id="delete_" data-toggle="modal" data-target="#deleteMode"><i style='font-size:35px;color: red;' class='fas'>&#xf2ed;</i></a></div>
+            </div>
+            <hr>
+            <div>
+                <!--Run-->
+                <div class="tron"><a href="#" id="run_" onclick="showInput()"><i style='font-size:30px;color:gold;' class='fas'>&#xf085;</i></a></div>
+                <!--Search-->
+                <div class="tron"><a href="#" id="search_" data-toggle="modal" data-target="#searchMode"><i style='font-size:33px' class='fas'>&#xf002;</i></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<hr>
+<div class="content-Tree">
+    <h3 style="text-align:center;margin-top:-1%"><strong>DRAW TREE</strong></h3>
+    <div id="results-array"></div>
+</div>
+
+<!-- Modal Search -->
+<div class="modal fade" id="searchMode" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLongTitle">Search Node</h3>
+            </div>
+            <div class="modal-body row">
+
+                <div class="tron col-sm-2"><a href="#"><i style='font-size:40px' class='fas'>&#xf002;</i></a></div>
+                <div class="col-sm-7"><input class="form-control" /><small>The result will display background red</small></div>
+                <div class="col-sm-1"><button class="btn btn-info">Submit</button></div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteMode" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLongTitle">Delete Node</h3>
+            </div>
+            <div class="content row">
+                <h5 style="text-align:center"><strong id="values-array">Tree Array: &nbsp; [...]</strong></h5>
+            </div>
+            <strong style="text-align:right;color:#a7a4a4"><small>&ndash; Node: delete all nodes&ndash;>value = n</small></strong>
+            <div class="modal-body row">
+                <div class="tron col-sm-2"><a href="#"><i style='font-size:40px' class='fas'>&#xf002;</i></a></div>
+                <div class="col-sm-7"><input class="form-control" id="value-delete"/><small>The result will be colored red</small></div>
+                <div class="col-sm-1"><button class="btn btn-info" id="submit_delete">Submit</button></div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/xuLy.js"></script>

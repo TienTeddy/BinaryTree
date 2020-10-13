@@ -1,0 +1,81 @@
+﻿body {
+}
+
+.inp {
+    width: 4em;
+    display: inline-block;
+    margin-left: 0.3%;
+}
+
+.pnext {
+    position: absolute;
+    float: inherit;
+    width: 3%;
+    height: 37px;
+    border-radius: 50%;
+    background-color: #0894c2;
+    padding: 0.6%;
+    display: inline-block;
+    margin-top: -0.3%;
+    margin-left: 1%;
+}
+
+    .pnext:hover {
+        border: 0.2px solid aqua;
+    }
+
+.pnext-icon {
+    color: burlywood;
+    width: 100%;
+}
+
+.content {
+    margin-top: 3%;
+    width: 100%;
+    height: auto;
+    box-shadow: 0.3em 0.3em 1em rgba(0,0,0,0.3);
+    margin-bottom: 1%;
+    padding: 2.5%;
+    padding-right: 2%;
+    padding-bottom: 4%;
+}
+
+.textNumber {
+    float: right;
+    margin-top: 0.6%;
+}
+
+.container-item {
+    width: 100%;
+    height: auto;
+    padding-left: 8%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background-color: rgb(128, 227, 240);
+}
+
+.tron {
+    box-shadow: 0.2em 0.4em 1.5em 0.1em rgba(0,0,0,0.3);
+    width: 54px;
+    height: 54px;
+    background-color: white;
+    padding: 4% 4.5% 3%;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 1%;
+}
+
+.content-Tree {
+    margin-top: 1%;
+    width: 100%;
+    height: auto;
+    box-shadow: 0.3em 0.3em 1em rgba(0,0,0,0.3);
+    margin-bottom: 4%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 4%;
+    padding-top:0%;
+}
+.modal-title{
+    text-align:center;
+}
