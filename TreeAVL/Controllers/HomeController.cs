@@ -31,9 +31,12 @@ namespace TreeAVL.Controllers
         public JsonResult AVLTree(int[] data)
         {
             //int[] a = { 8,1,3,9,6,7,2,22,10,11 };
-            //int[] a = { 4, 6, 1, 5, 7, 9 };
+            //int[] data = { 4, 6, 1, 5, 7, 9, 9, 9 };
+            //data = null;
+            
             var dao = new AVLTree();
             var result = dao.show(data, data.Length);
+            data = null;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -103,7 +103,7 @@ namespace ActionsTree
 
             if (key < node.key)
                 node.left = insert(node.left, key);
-            else if (key > node.key)
+            else if (key >= node.key)
                 node.right = insert(node.right, key);
             else // Duplicate keys not allowed  
                 return node;
@@ -214,9 +214,9 @@ namespace ActionsTree
         {
             int[] result = new int[n];
             AVLTree tree = new AVLTree();
-            for (int i = 0; i < array.Length; i++)
+            for (int ik = 0; ik < array.Length; ik++)
             {
-                tree.root = tree.insert(tree.root, array[i]);
+                tree.root = tree.insert(tree.root, array[ik]);
                 //result[i] = tree.root.key;
             }
             NLR(tree.root);

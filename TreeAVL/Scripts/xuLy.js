@@ -3,6 +3,8 @@ var count = 0; var string = "";
 var arrayred = new Array(); numberred = 0;
 var array = new Array();
 var actions = new Array();
+var TucA = new Array();
+var co = false;
 
 var myVar = setInterval(function() {
     myTimer();
@@ -71,25 +73,55 @@ function showInput() {
         }
     });
 
+    var dem = 0;
     // del number out array
     for (var i = 0; i < count;i++){
         for (var j = 0; j < numberred; j++) {
             if (array[i] == arrayred[j]) {
-                var index = array.indexOf(arrayred[j]);
+                /*var index = array.indexOf(arrayred[j]);
                 if (index > -1) {
                     array.splice(index, 1);
+                }*/
+                /*if (i == 0) { array = array.slice(1, count); dem += 1;}
+                else if (i == count - 1) {
+                    array = array.slice(0, count - 1);
+                }
+                else {
+                    array = array.slice(0, i)+","+ array.slice(i+1, count);
+                }*/
+                if (i == 0) { array.shift(); }
+                else if (i == count - 1) {
+                    array.pop();
+                }
+                else {
+                    //array = array.slice(0, i) + "," + array.slice(i + 1, count);
+                    var removed = array.splice(i, 1);
                 }
             }
         }
     }
-
+    count = array.length-dem; alert(array);
+    //for (var i = 0; i < array.length; i++) { alert(array[i]); }
     var str = "";
-    $.each(array, function (index, value) {
+    /*$.each(array, function (index, value) {
         //document.getElementById("results-array").innerHTML = value;
         str += value + ",";
         actions[index] = Number(value);
-    });
-    
+    });*/
+
+    // tức thiệc chứ
+    var numberActions = -1;
+    for (var l = 0; l < count; l++) {
+        str += array[l] + ",";
+        if (array[l] !== ",") {
+            numberActions += 1;
+            actions[numberActions] = Number(array[l]);
+        }
+    }
+    if (co == true) {
+        actions.length = actions.length - 1;
+    }
+
     document.getElementById("results-array").innerHTML = str;
 
     //checking inputed or not input
@@ -97,7 +129,7 @@ function showInput() {
     $("#number-array").html("NUMBER[...]:&nbsp;" + count);
     countT = count; string = str;
 
-    array = array.slice(0, count);
+    array = array.slice(0, count+1);
     count = 0;
 
     return string;
@@ -132,7 +164,7 @@ $(document).ready(function () {
                 setTimeout(() => {
                     $('#spinner-action').hide();
                     $("#results-array").show();
-                }, 2000);
+                }, 1000);
             },
         });
 
@@ -146,19 +178,25 @@ $(document).ready(function () {
         //console.log(string);
         $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + string + "&nbsp; ]");
     });
-
+    $("#reset_").click(function () {
+        $(".inp").prop("readonly", false);
+        $('.inp').each(function () {
+            this.value = null;
+        });
+    });
 
     //delete Node
     $("#submit_delete").click(function () {
+        co = true;
         var str1 = string;
         var val = $("#value-delete").val();
         var boolean=false;
 
         if (temporaty[0] != null) {
-            for (var i = 0; i < ii;i++){
+            for (var i = 0; i < ii; i++) {
                 if (str1[i] === val) {
                     boolean = true;
-                    str1 = str1.slice(0, i) + str1.slice(i+2, ii);
+                    str1 = str1.slice(0, i) + str1.slice(i+2, ii+2);
                 }
             }
         }
@@ -181,7 +219,7 @@ $(document).ready(function () {
                     $("#array-" + i).css("background-color", "#CC3333");
                     $("#array-" + i).css("color", "white");
 
-                    arrayred[numberred] = value.toString();
+                    arrayred[numberred] = Number(value);
                     numberred += 1;
                 }
             }
