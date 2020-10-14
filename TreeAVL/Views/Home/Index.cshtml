@@ -9,20 +9,21 @@
 <link href="~/Content/spinner.css" rel="stylesheet" />
 <div class="content">
     <div class="row">
-        <div class="col-sm-2 row" style="background-color: khaki;">
-            <div class="col-sm-6">
+        <div class="col-sm-3 row" style="background-color: khaki;">
+            <div class="col-md-8">
                 <h3><strong>Array</strong></h3>
-                <small><strong id="number-array">NUMBER[...]:&nbsp;9</strong></small>
+                <small><strong id="number-array">NUMBER[...]:&nbsp;8</strong></small>
+                <small><strong id="number-red">NUMBER-RED:&nbsp;0</strong></small>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-3">
             </div>
-            <div class="col-sm-2">
+            <div class="col-md-1">
                 <!--empty-->
             </div>
         </div>
-        <div class="col-sm-7 row" id="array">
+        <div class="col-sm-6 row" id="array">
             <div class="col-sm-1"></div>
-            <div class="col-sm-11" id="col-sm-11">
+            <div class="col-sm-11 formInput" id="col-sm-11">
                 <div id='arr-1'>
                     <input class="input-sm form-control inp" id='array-0' onkeypress='validate(event)' />
                     <input class="input-sm form-control inp" id='array-1' onkeypress='validate(event)' />
@@ -32,7 +33,6 @@
                     <input class="input-sm form-control inp" id='array-5' onkeypress='validate(event)' />
                     <input class="input-sm form-control inp" id='array-6' onkeypress='validate(event)' />
                     <input class="input-sm form-control inp" id='array-7' onkeypress='validate(event)' />
-                    <input class="input-sm form-control inp" id='array-8' onkeypress='validate(event)' />
                 </div>
             </div>
         </div>
@@ -63,7 +63,16 @@
 <hr>
 <div class="content-Tree">
     <h3 style="text-align:center;margin-top:-1%"><strong>DRAW TREE</strong></h3>
-    <div id="results-array"></div>
+    <div id="results-array">
+        @Html.Partial("Contact")
+        <!--Tree 1
+    <div class='input-box'>
+        <input id='tree-input' type='number' placeholder='Enter number'>
+        <button id='add-to-tree' onclick="addToTree()">Add To Tree</button>
+    </div>-->
+        <!--Tree 2-->
+        <button id="add" onclick="run()">Insert</button>
+    </div>
 </div>
 
 <!-- Modal Search -->

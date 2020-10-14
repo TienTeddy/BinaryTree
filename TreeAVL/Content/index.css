@@ -2,9 +2,9 @@
 }
 
 .inp {
-    width: 4em;
+    width: 4.2em;
     display: inline-block;
-    margin-left: 0.3%;
+    margin-left: 0.6%;
 }
 
 .pnext {
@@ -78,4 +78,30 @@
 }
 .modal-title{
     text-align:center;
+}
+.small{display:inline-block}
+
+
+/*NODE*/
+.node {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    position: absolute;
+    left: 50%;
+    background-color: blue;
+    border: 2px solid green;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 30px;
+    transition: 2s;
+}
+
+.line {
+    width: 2px;
+    border: 1px solid #000;
+    position: absolute;
+    transform-origin: top left;
+    z-index: -1;
 }
