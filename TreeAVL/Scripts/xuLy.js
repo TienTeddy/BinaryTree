@@ -6,10 +6,10 @@ var actions = new Array();
 var TucA = new Array();
 var co = false;
 
-var myVar = setInterval(function() {
+var myVar = setInterval(function () {
     myTimer();
 }, 1000);
-    
+
 function myTimer() {
     var d = new Date();
     document.getElementById("clock").innerHTML = d.toLocaleTimeString();
@@ -34,7 +34,7 @@ function validate(evt) {
     }
 }
 
-var ii=8; var arrayNumber=2;
+var ii = 8; var arrayNumber = 2;
 function add_Array() {
     var divArray = document.createElement("div");
     divArray.id = "arr-" + arrayNumber;
@@ -62,12 +62,13 @@ function add_Array() {
 };
 
 function showInput() {
-    
+
     var values;
     var next = 0; var next1 = 0;
     if (array == null) {
         alert("Please enter nodes!");
-        return false; }
+        return false;
+    }
     $('.inp').each(function () {
         values = this.value;
         if (values !== "") {
@@ -77,7 +78,7 @@ function showInput() {
     });
 
     // del number out array
-    for (var i = 0; i < count;i++){
+    for (var i = 0; i < count; i++) {
         for (var j = 0; j < numberred; j++) {
             if (arrayred != null) {
                 if (array[i] == arrayred[j]) {
@@ -129,247 +130,365 @@ function showInput() {
         actions.length = actions.length - 1;
     }
 
-    document.getElementById("results-array").innerHTML = str;
+    //document.getElementById("results-array").innerHTML = str;
 
     //checking inputed or not input
     temporaty[0] = array[0];
-    $("#number-array").html("NUMBER[...]:&nbsp;" + (count-dem) );
+    $("#number-array").html("NUMBER[...]:&nbsp;" + (count - dem));
     countT = count; string = str;
 
-    array = array.slice(0, count+1);
+    array = array.slice(0, count + 1);
     count = 0;
 
     return true;
 }
 
-$(document).ready(function () {
-    //call spinner off
-    $('#spinner-action').hide();
-    
-    $("#run_").click(function () {
-        if (temporaty[0] == null) {
-            alert("Please enter nodes!");
-            return false;
-        }
-
-        $(".inp").prop("readonly", true);
-        $('#spinner-action').show();
-
-        jQuery.ajax({
-            type: "POST",
-            url: 'Home/AVLTree',
-            data: { data: actions },
-            dataType: "json",
-            beforeSend: function () {
-                $('#spinner-action').show(); //Hide your spinner after your call
-            },
-            success: function (data) {
-                $("#results-array").html(data);
-                $("#results-array").hide();
-            },
-            complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                setTimeout(() => {
-                    $('#spinner-action').hide();
-                    $("#results-array").show();
-                    //run(data, data.length);
-                }, 1000);
-            },
-        });
-
-        return true;
-    });
-    $("#edit_").click(function () {
-        $(".inp").prop("readonly", false);
-    });
-    $("#delete_").click(function () {
-        //var strd = showInput();
-        //console.log(string);
-        $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + string + "&nbsp; ]");
-    });
-    $("#reset_").click(function () {
-        $(".inp").prop("readonly", false);
-
-        actions.length = actions.length + 1;
-        for (var i = 0; i < ii; i++) {
-            //var value = $("#array-" + i).val();
-            this.value = null;
-            $("#array-" + i).prop("readonly", false);
-            $("#array-" + i).css("background-color", "white");
-            $("#array-" + i).css("color", "black");
-        }
-        arrayred = new Array(); //array = null;
-        numberred = 0;
-    });
-
-    //delete Node
-    $("#submit_delete").click(function () {
-        co = true;
-        var str1 = string;
-        var val = $("#value-delete").val();
-        var boolean=false;
-        dem += 1;
-        if (temporaty[0] != null) {
-            for (var i = 0; i < ii-dem; i++) {
-                if (str1[i] === val) {
-                    boolean = true;
-                    str1 = str1.slice(0, i) + str1.slice(i+2, ii+1);
-                }
-            }
-        }
-        else {
-            alert("Nodes empty!");
-            return false;
-        }
-
-        //check boolean
-        if (boolean == true) {
-            alert("Delete node->value = "+ val +", success!");
-            $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + str1 + "&nbsp; ]");
-            $("#results-array").html(str1);
-            string = str1;
-
-            for (var i = 0; i < ii; i++) {
-                var value = $("#array-"+i).val();
-                if (val === value) {
-                    $("#array-" + i).prop("readonly", true);
-                    $("#array-" + i).css("background-color", "#CC3333");
-                    $("#array-" + i).css("color", "white");
-
-                    arrayred[numberred] = Number(value);
-                    numberred += 1;
-                }
-            }
-            
-            $("#number-array").html("NUMBER[...]:&nbsp;" + (countT - dem));
-            $("#number-red").html("NUMBER-RED[...]:&nbsp;" + (numberred));
-            return true;
-        }
-        else {
-            alert("Find node not exits!");
-            return false;
-        }
-        
-    });
-});
-
 // Canvas
 //TREE 1
-/*
-var Node = function (x, y, r, ctx, data) {
-    // left child of a node
-    this.leftNode = null;
-    // right child of a node
-    this.rightNode = null;
+/*************   variables   *************/
+var addt = document.getElementById('addt');
+var searcht = document.getElementById('searcht');
+var inputt = document.getElementById('inputt');
+var root1 = null;
+var time1 = 1000;
+var rootTopPosition1 = 80;
 
-    // draw function. Responsible for drawing the node
-    this.draw = function () {
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.closePath();
-        ctx.strokeText(data, x, y);
-    };
+/*addt.onclick = function () {
+    Addt();
+}
+searcht.onclick = function () {
+    callSearcht();
+}
+Deleteet.onclick = function () {
+    callDeletet();
+}*/
 
-    // Simple getters
-    this.getData = function () { return data; };
-    this.getX = function () { return x; };
-    this.getY = function () { return y; };
-    this.getRadius = function () { return r; };
+function runTree1(aa) {
+    //var a = [10, 2, 3, 4, 5, 6];
 
-    // Returns coordinate for the left child
-    // Go back 3 times radius in x axis and 
-    // go down 3 times radius in y axis
-    this.leftCoordinate = function () {
-        return { cx: (x - (3 * r)), cy: (y + (3 * r)) }
-    };
-    // Same concept as above but for right child        
-    this.rightCoordinate = function () {
-        return { cx: (x + (3 * r)), cy: (y + (3 * r)) }
-    };
-};
+    kkk = 0;
+    (function runt(iii) {
 
-// Draws a line from one circle(node) to another circle (node) 
-var Line = function () {
-    // Takes 
-    // x,y      - starting x,y coordinate
-    // toX, toY - ending x,y coordinate
-    this.draw = function (x, y, toX, toY, r, ctx) {
-        var moveToX = x;
-        var moveToY = y + r;
-        var lineToX = toX;
-        var lineToY = toY - r;
-        ctx.beginPath();
-        ctx.moveTo(moveToX, moveToY);
-        ctx.lineTo(lineToX, lineToY);
-        ctx.stroke();
-    };
-};
+        setTimeout(function () {
+            Addt(aa[kkk]);
+            kkk += 1;
+            if (--iii) runt(iii);     //  decrement i and call myLoop again if i > 0
+        }, 1000)
+    })(aa.length);
+}
 
-// Represents the btree logic
-var BTree = function () {
-    var c = document.getElementById('my-canvas');
-    var ctx = c.getContext('2d');
-    var line = new Line();
-    this.root = null;
-
-    var self = this;
-
-    // Getter for root
-    this.getRoot = function () { return this.root; };
-
-    // Adds element to the tree
-    this.add = function (data) {
-        // If root exists, then recursively find the place to add the new node
-        if (this.root) {
-            this.recursiveAddNode(this.root, null, null, data);
-        } else {
-            // If not, the add the element as a root 
-            this.root = this.addAndDisplayNode(200, 20, 15, ctx, data);
-            return;
+function callSearcht(n) {
+    if (n == "") {
+        alert("You must enter a value.");
+        return;
+    }
+    Searcht(parseInt(n), root1);
+    setTimeout(function () {
+        mainColort(root1);
+    }, 3 * time1);
+}
+function callDeletet(n) {
+    if (n == "") {
+        alert("You must enter a value.");
+        return;
+    }
+    root1 = Deletet(parseInt(n), root1);
+    setTimeout(function () {
+        mainColort(root1);
+        Reallocatet(root1, window.innerWidth / 3, rootTopPosition1);
+        var temp = mostLeftt(root1);
+        if (parseInt(temp.node1.left) < 0) {
+            setPositiont(root1, -1 * parseInt(temp.node1.left));
         }
-    };
+    }, time1);
+}
+function Addt(n) {
+    if (n == "") {
+        alert("You must enter a value.");
+        return;
+    }
+    // mainColor(root1);
+    if (!root1) {
+        root1 = new Node1(parseInt(n), window.innerWidth / 3, rootTopPosition1 - 30);
+        return;
+    }
+    else {
+        root1 = insertt(parseInt(n), root1, root1.node1.left, root1.node1.top);
+    }
+    setTimeout(function () {
+        Reallocatet(root1, window.innerWidth / 3, rootTopPosition1 - 30);
+        var temp = mostLeftt(root1);
+        if (parseInt(temp.node1.left) < 0) {
+            setPositiont(root1, -1 * parseInt(temp.node1.left));
+        }
+        mainColort(root1);
+    }, time1);
+}
 
-    // Recurively traverse the tree and find the place to add the node
-    this.recursiveAddNode = function (node, prevNode, coordinateCallback, data) {
-        if (!node) {
-            // This is either node.leftCoordinate or node.rightCoordinate
-            var xy = coordinateCallback();
-            var newNode = this.addAndDisplayNode(xy.cx, xy.cy, 15, ctx, data);
-            line.draw(prevNode.getX(), prevNode.getY(), xy.cx, xy.cy, prevNode.getRadius(), ctx)
-            return newNode;
+
+function insertt(val, node1, x, y) {
+    if (!node1) {
+        return new Node1(val, x, y);
+    }
+    if (val < node1.n.innerHTML) {
+        node1.node1.backgroundColor = "yellow";
+        node1.left = insertt(val, node1.left, parseInt(node1.node1.left) - 55, parseInt(node1.node1.top) + 55);
+        // node.node.backgroundColor = "red";
+    }
+    else if (val > node1.n.innerHTML) {
+        node1.node1.backgroundColor = "yellow";
+        node1.right = insertt(val, node1.right, parseInt(node1.node1.left) + 55, parseInt(node1.node1.top) + 55);
+        // node.node.backgroundColor = "red";
+    }
+    else {
+        // node.node.backgroundColor = "red";
+        return node1;
+    }
+    node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+
+    var balance = GetBalancet(node1);
+    return node1;
+}
+
+function Heightt(node1) {
+    if (!node1) {
+        return -1;
+    }
+    return node1.h;
+}
+
+function GetBalancet(node1) {
+    if (!node1) {
+        return 0;
+    }
+    return Heightt(node1.left) - Heightt(node1.right);
+}
+
+function rotateToRightt(node1) {
+    var n = node1.left;
+    var nr = n.right;
+    n.right = node1;
+    node1.left = nr;
+    node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+    n.h = 1 + Math.max(Heightt(n.left), Heightt(n.right));
+    return n;
+}
+
+function rotateToLeftt(node1) {
+    var newP = node1.right;
+    var temp = newP.left;
+    newP.left = node1;
+    node1.right = temp;
+    node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+    newP.h = 1 + Math.max(Heightt(newP.left), Heightt(newP.right));
+    return newP;
+}
+
+function Reallocatet(node1, x, y) {
+    if (!node1)
+        return;
+    var temp = (Math.pow(2, node1.h-2)) * 30;
+
+    if (node1.linel) {
+        document.getElementById("Tree-AVL-1").removeChild(node1.linel);
+        node1.linel = null;
+    }
+    if (node1.liner) {
+        document.getElementById("Tree-AVL-1").removeChild(node1.liner);
+        node1.liner = null;
+    }
+
+    if (node1.left) {
+        node1.linel = getLinet(x, y, x - temp, y + 100, 1);
+    }
+    if (node1.right) {
+        node1.liner = getLinet(x, y, x + temp, y + 100, -1);
+    }
+
+    node1.node1.left = x + 'px';
+    node1.node1.top = y + 'px';
+    // node.node.backgroundColor = "red";
+    Reallocatet(node1.left, x - temp, y + 100);
+    Reallocatet(node1.right, x + temp, y + 100);
+}
+
+function mostLeftt(node1) {
+    var cur = node1;
+    while (cur.left) {
+        cur = cur.left;
+    }
+    return cur;
+}
+
+function setPositiont(node1, shifting) {
+    if (!node1) {
+        return;
+    }
+    setPositiont(node1.left, shifting );
+    setPositiont(node1.right, shifting);
+    node1.node1.left = parseInt(node1.node1.left) + shifting + 'px';
+    if (node1.linel) {
+        node1.linel.style.left = parseInt(node1.linel.style.left) + shifting + 'px';
+    }
+    if (node1.liner) {
+        node1.liner.style.left = parseInt(node1.liner.style.left) + shifting + 'px';
+    }
+}
+
+function Searcht(val, node1) {
+    if (!node1) {
+        alert("Not found :V");
+        return;
+    }
+    else if (node1.n.innerHTML == val) {
+        node1.node.backgroundColor = "blue";
+        alert("Found :D");
+        return;
+    }
+    else if (node1.n.innerHTML < val) {
+        node1.node1.backgroundColor = "yellow";
+        Searcht(val, node1.right);
+        // node.node.backgroundColor = "red";
+    }
+    else if (node1.n.innerHTML > val) {
+        node1.node1.backgroundColor = "yellow";
+        Searcht(val, node1.left);
+        // node.node.backgroundColor = "red";
+    }
+}
+
+function Deletet(val, node1) {
+    if (!node1) {
+        return node1;
+    }
+    node1.node1.backgroundColor = "yellow";
+    if (val < node1.n.innerHTML) {
+        node1.left = Deletet(val, node1.left);
+    }
+    else if (val > node1.n.innerHTML) {
+        node1.right = Deletet(val, node1.right);
+    }
+    else if (val == node1.n.innerHTML) {
+        if (!node1.left) {
+            var temp = node1;
+            node1 = node1.right;
+            document.body.removeChild(temp.n);
+            if (node1) {
+                document.getElementById("Tree-AVL-1").removeChild(temp.liner);
+            }
+            console.log(delete temp);
+            temp = null;
+            return node1;
+        }
+        else if (!node1.right) {
+            var temp = node1;
+            node1 = node1.left;
+            document.getElementById("Tree-AVL-1").removeChild(temp.n);
+            document.getElementById("Tree-AVL-1").removeChild(temp.linel);
+            temp = null;
+            console.log(delete temp);
+            return node1;
         }
         else {
-            if (data <= node.getData()) {
-                node.left = this.recursiveAddNode(node.left, node, node.leftCoordinate, data);
-            }
-            else {
-                node.right = this.recursiveAddNode(node.right, node, node.rightCoordinate, data);
-            }
-            return node;
+            var temp = mostLeftt(node1.right);
+            node1.n.innerHTML = temp.n.innerHTML;
+            node1.right = Deletet(parseInt(temp.n.innerHTML), node1.right);
         }
-    };
+    }
+    node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
 
-    // Adds the node to the tree and calls the draw function
-    this.addAndDisplayNode = function (x, y, r, ctx, data) {
-        var node = new Node(x, y, r, ctx, data);
-        node.draw();
-        return node;
-    };
-};
+    var balance = GetBalancet(node1);
 
-var addToTree = function () {
-    input = document.getElementById('tree-input');
-    value = parseInt(input.value);
-    if (value)
-        btree.add(value);
-    else
-        alert("Wrong input");
-};
 
-var btree = new BTree();*/
+
+    // Left Left Case
+    if (balance > 1 && GetBalancet(node1.left) >= 0) {
+        node1 = rotateToRightt(node1);
+        return node1;
+    }
+
+
+    // Right Right Case
+    if (balance < -1 && GetBalancet(node1.right) <= 0) {
+        node1 = rotateToLeftt(node1);
+        return node1;
+    }
+
+    // Left Right Case
+    if (balance > 1 && GetBalancet(node.left) < 0) {
+        node1.left = rotateToLeftt(node1.left);
+        node1 = rotateToRightt(node1);
+        return node1;
+    }
+
+    // Right Left Case
+    if (balance < -1 && GetBalancet(node1.right) > 0) {
+        node1.right = rotateToRightt(node1.right);
+        node1 = rotateToLeftt(node1);
+        return node1;
+    }
+    return node1;
+}
+
+function Node1(val, x, y) {
+    this.left = null;
+    this.right = null;
+    this.h = 0;
+    this.n = document.createElement('div');
+    this.n.innerHTML = val;
+    this.n.className = "node";
+    this.node1 = this.n.style;
+    this.node1.top = y + 'px';
+    this.node1.left = x + 'px';
+    this.linel = null;
+    this.liner = null;
+    document.getElementById("Tree-AVL-1").appendChild(this.n);
+    return this;
+}
+
+function sleept(ms) {
+    var curT = new Date().getTime();
+    var duration = curT + ms;
+    while (curT < duration) {
+        curT = new Date().getTime();
+    }
+}
+
+function getLengtht(x1, y1, x2, y2) {
+    var x = Math.pow(y1 - y2, 2);
+    var y = Math.pow(x1 - x2, 2);
+    return Math.sqrt(x + y);
+}
+
+function getAnglet(x1, x2, dist) {
+    var a = Math.abs(x1 - x2);
+    return Math.asin(a / dist);
+}
+
+function getLinet(x1, y1, x2, y2, fact) {
+    var line = document.createElement('div');
+    line.className = "line";
+    line.style.top = y1 + 25 + 'px';
+    line.style.left = x1 + 25 + 'px';
+    var length = getLengtht(x1, y1, x2, y2);
+    line.style.height = length + 'px'; //cut line
+    line.style.transform = "rotate(" + fact * getAnglet(x1, x2, length) + "rad)";
+    document.getElementById("Tree-AVL-1").appendChild(line);
+    return line;
+}
+
+function mainColort(node1) {
+    if (!node1)
+        return;
+    node1.node1.backgroundColor = "#0000FF";
+    mainColort(node1.left);
+    mainColort(node1.right);
+}
+
 
 //TREE 2
 /*************   variables   *************/
+
 var add = document.getElementById('add');
 var search = document.getElementById('search');
 var input = document.getElementById('input');
@@ -395,20 +514,21 @@ document.onkeypress = function (e) {
     }
 }
 
-function run() {
-    var a = [1, 2, 3, 4, 5];
+function run(aa) {
+    
 
-    kk = 0;
-    (function run1(i) {
+    kkk = 0;
+    (function run1(iii) {
+
         setTimeout(function () {
-            Add(a[kk]);
-            kk += 1;
-            if (--i) run1(i);      //  decrement i and call myLoop again if i > 0
-        }, 2500)
-    })(11); 
+            Add(aa[kkk]);
+            kkk += 1;
+            if (--iii) run1(iii);     //  decrement i and call myLoop again if i > 0
+        }, 1000)
+    })(aa.length);
 }
 
-    
+
 /*add.onclick = function () {
     
 }
@@ -437,7 +557,7 @@ function callDelete(inp) {
     root = Delete(parseInt(inp), root);
     setTimeout(function () {
         mainColor(root);
-        Reallocate(root, window.innerWidth / 2, rootTopPosition);
+        Reallocate(root, window.innerWidth / 3, rootTopPosition);
         var temp = mostLeft(root);
         if (parseInt(temp.node.left) < 0) {
             setPosition(root, -1 * parseInt(temp.node.left));
@@ -451,17 +571,17 @@ function Add(inp) {
     }
     // mainColor(root);
     if (!root) {
-        root = new Node(parseInt(inp), window.innerWidth / 2, rootTopPosition);
+        root = new Node(parseInt(inp), window.innerWidth / 3, rootTopPosition - 30); //rootTopPosition = top
         return;
     }
     else {
         root = insert(parseInt(inp), root, root.node.left, root.node.top);
     }
     setTimeout(function () {
-        Reallocate(root, window.innerWidth / 2, rootTopPosition);
+        Reallocate(root, window.innerWidth / 3, rootTopPosition - 30);
         var temp = mostLeft(root);
         if (parseInt(temp.node.left) < 0) {
-            setPosition(root, -1 * parseInt(temp.node.left));
+            setPosition(root, -1 * parseInt(temp.node.left) - 100);
         }
         mainColor(root);
     }, time);
@@ -474,12 +594,12 @@ function insert(val, node, x, y) {
     }
     if (val < node.n.innerHTML) {
         node.node.backgroundColor = "yellow";
-        node.left = insert(val, node.left, parseInt(node.node.left) - 50, parseInt(node.node.top) + 50);
+        node.left = insert(val, node.left, parseInt(node.node.left) - 55, parseInt(node.node.top) + 55);
         // node.node.backgroundColor = "red";
     }
     else if (val > node.n.innerHTML) {
         node.node.backgroundColor = "yellow";
-        node.right = insert(val, node.right, parseInt(node.node.left) + 50, parseInt(node.node.top) + 50);
+        node.right = insert(val, node.right, parseInt(node.node.left) + 55, parseInt(node.node.top) + 55);
         // node.node.backgroundColor = "red";
     }
     else {
@@ -554,14 +674,14 @@ function rotateToLeft(node) {
 function Reallocate(node, x, y) {
     if (!node)
         return;
-    var temp = (Math.pow(2, node.h - 1)) * 50;
+    var temp = (Math.pow(2, node.h - 1)) * 35;
 
     if (node.linel) {
-        document.body.removeChild(node.linel);
+        document.getElementById("Tree-AVL").removeChild(node.linel);
         node.linel = null;
     }
     if (node.liner) {
-        document.body.removeChild(node.liner);
+        document.getElementById("Tree-AVL").removeChild(node.liner);
         node.liner = null;
     }
 
@@ -639,9 +759,9 @@ function Delete(val, node) {
         if (!node.left) {
             var temp = node;
             node = node.right;
-            document.body.removeChild(temp.n);
+            document.getElementById("Tree-AVL").removeChild(temp.n);
             if (node) {
-                document.body.removeChild(temp.liner);
+                document.getElementById("Tree-AVL").removeChild(temp.liner);
             }
             console.log(delete temp);
             temp = null;
@@ -650,8 +770,8 @@ function Delete(val, node) {
         else if (!node.right) {
             var temp = node;
             node = node.left;
-            document.body.removeChild(temp.n);
-            document.body.removeChild(temp.linel);
+            document.getElementById("Tree-AVL").removeChild(temp.n);
+            document.getElementById("Tree-AVL").removeChild(temp.linel);
             temp = null;
             console.log(delete temp);
             return node;
@@ -709,8 +829,8 @@ function Node(val, x, y) {
     this.node.left = x + 'px';
     this.linel = null;
     this.liner = null;
-    //document.getElementById("results-array").appendChild(this.n);
-    document.body.appendChild(this.n);
+    document.getElementById("Tree-AVL").appendChild(this.n);
+    //document.body.appendChild(this.n);
     return this;
 }
 
@@ -741,7 +861,7 @@ function getLine(x1, y1, x2, y2, fact) {
     var length = getLength(x1, y1, x2, y2);
     line.style.height = length + 'px';
     line.style.transform = "rotate(" + fact * getAngle(x1, x2, length) + "rad)";
-    document.body.appendChild(line);
+    document.getElementById("Tree-AVL").appendChild(line);
     return line;
 }
 
@@ -752,3 +872,124 @@ function mainColor(node) {
     mainColor(node.left);
     mainColor(node.right);
 }
+
+/*Ajax*/
+var resultTree1 = new Array();
+$(document).ready(function () {
+    //call spinner off
+    $('#spinner-action').hide();
+
+    $("#run_").click(function () {
+        if (temporaty[0] == null) {
+            alert("Please enter nodes!");
+            return false;
+        }
+
+        $(".inp").prop("readonly", true);
+        $('#spinner-action').show();
+
+        jQuery.ajax({
+            type: "POST",
+            url: 'Home/AVLTree',
+            data: { data: actions },
+            dataType: "json",
+            beforeSend: function () {
+                $('#spinner-action').show(); //Hide your spinner after your call
+            },
+            success: function (data) {
+                //$("#results-array").html(data);
+                $.each(data, function (index, value) {
+                    resultTree1[index] = data[index];
+                })
+                $("#results-array").hide();
+            },
+            complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                setTimeout(() => {
+                    $('#spinner-action').hide();
+                    $("#results-array").show();
+                    
+                    runTree1(actions);
+                    setTimeout(() => {
+                        //runTree1(resultTree1);
+                        run(actions);
+                    }, actions.length * 1100);
+
+                }, 1000);
+            },
+        });
+
+        return true;
+    });
+    $("#edit_").click(function () {
+        $(".inp").prop("readonly", false);
+    });
+    $("#delete_").click(function () {
+        //var strd = showInput();
+        //console.log(string);
+        $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + string + "&nbsp; ]");
+    });
+    $("#reset_").click(function () {
+        $(".inp").prop("readonly", false);
+
+        actions.length = actions.length + 1;
+        for (var i = 0; i < ii; i++) {
+            //var value = $("#array-" + i).val();
+            this.value = null;
+            $("#array-" + i).prop("readonly", false);
+            $("#array-" + i).css("background-color", "white");
+            $("#array-" + i).css("color", "black");
+        }
+        arrayred = new Array(); //array = null;
+        numberred = 0;
+    });
+
+    //delete Node
+    $("#submit_delete").click(function () {
+        co = true;
+        var str1 = string;
+        var val = $("#value-delete").val();
+        var boolean = false;
+        dem += 1;
+        if (temporaty[0] != null) {
+            for (var i = 0; i < ii - dem; i++) {
+                if (str1[i] === val) {
+                    boolean = true;
+                    str1 = str1.slice(0, i) + str1.slice(i + 2, ii + 1);
+                }
+            }
+        }
+        else {
+            alert("Nodes empty!");
+            return false;
+        }
+
+        //check boolean
+        if (boolean == true) {
+            alert("Delete node->value = " + val + ", success!");
+            $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + str1 + "&nbsp; ]");
+            $("#results-array").html(str1);
+            string = str1;
+
+            for (var i = 0; i < ii; i++) {
+                var value = $("#array-" + i).val();
+                if (val === value) {
+                    $("#array-" + i).prop("readonly", true);
+                    $("#array-" + i).css("background-color", "#CC3333");
+                    $("#array-" + i).css("color", "white");
+
+                    arrayred[numberred] = Number(value);
+                    numberred += 1;
+                }
+            }
+
+            $("#number-array").html("NUMBER[...]:&nbsp;" + (countT - dem));
+            $("#number-red").html("NUMBER-RED[...]:&nbsp;" + (numberred));
+            return true;
+        }
+        else {
+            alert("Find node not exits!");
+            return false;
+        }
+
+    });
+});

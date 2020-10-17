@@ -147,57 +147,6 @@ namespace ActionsTree
         // A utility function to print preorder traversal  
         // of the tree.  
         // The function also prints height of every node 
-        int j = 0;
-        public int[] preOrder(Node node, int n)
-        {
-            int[] results = new int[n];
-            if (node != null)
-            {
-
-                results[j] = node.key;
-                /*j += 1;
-                preOrder(node.left);
-                preOrder(node.right);*/
-
-
-                Node aL = node.left; //left or node
-                Node aR = node.left.right; // right or node left
-
-                while (aL != null)
-                {
-                    j += 1;
-                    results[j] = aL.key;
-                    aL = aL.left;
-
-                }
-                while (aR != null)
-                {
-                    j += 1;
-                    results[j] = aR.key;
-                    aR = aR.left;
-                }
-
-                //Node Right
-                Node bR = node.right; //left or node
-                Node bL = node.right.right; // right or node left
-                Node bRR = node.right; //left or node
-                //Node bRR = node.right.right;
-                while (bR != null)
-                {
-                    j += 1;
-                    results[j] = bR.key;
-                    bR = bR.left;
-
-                }
-                while (bL != null)
-                {
-                    j += 1;
-                    results[j] = bL.key;
-                    bL = bL.left;
-                }
-            }
-            return results;
-        }
 
         int[] arr = new int[1000]; int i = 0;
         private void NLR(Node a)
@@ -227,6 +176,22 @@ namespace ActionsTree
             }
             //result = tree.preOrder(tree.root,array.Length);
             return result;
+        }
+
+        // Find height of a tree, defined by the root node
+        int left_height = 0;
+        int right_height = 0;
+        int tree_height(Node root)
+        {
+            if (root == null)
+                return 0;
+            else
+            {
+                left_height = tree_height(root.left);
+                right_height = tree_height(root.right);
+
+                return max(left_height, right_height) + 1;
+            }
         }
     }
 }

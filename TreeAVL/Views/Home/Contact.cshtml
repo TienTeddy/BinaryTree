@@ -7,10 +7,377 @@
 <!--- SsooloomM --->
 <!--- Mostafa --->
 
-<div class="new">
-    <button id="add" onclick="run()">Insert</button>
-    <button id="search">Search</button>
-    <button id="Deletee">Delete</button>
-    <input type="text" id='input' placeholder="num">
+<button id="addt">Insert</button>
+<button id="searcht">Search</button>
+<button id="Deleteet">Delete</button>
+<input type="text" id='inputt' placeholder="num">
 
-</div>
+<script>
+    /*************   variables   *************/
+    var addt = document.getElementById('addt');
+    var searcht = document.getElementById('searcht');
+    var inputt = document.getElementById('inputt');
+    var root1 = null;
+    var time1 = 1000;
+    var rootTopPosition1 = 80;
+
+
+    document.onkeypress = function (e) {
+        // console.log(e.keyCode, e.charCode);
+        if (e.keyCode == 13 || e.charCode == 105 || e.charCode == 73) {
+            Addt();
+            input.value = "";
+        }
+        else if (e.charCode == 115 || e.charCode == 83) {
+            callSearch();
+
+            input.value = "";
+        }
+        else if (e.charCode == 100 || e.charCode == 68) {
+            callDeletet();
+            input.value = "";
+        }
+    }
+    addt.onclick = function () {
+        Addt();
+    }
+    searcht.onclick = function () {
+        callSearcht();
+    }
+    Deletee.onclick = function () {
+        callDeletet();
+    }
+
+    function callSearcht() {
+        if (input.value == "") {
+            alert("You must enter a value.");
+            return;
+        }
+        Searcht(parseInt(input.value), root1);
+        setTimeout(function () {
+            mainColort(root1);
+        }, 3 * time1);
+    }
+    function callDeletet() {
+        if (input.value == "") {
+            alert("You must enter a value.");
+            return;
+        }
+        root1 = Deletet(parseInt(input.value), root1);
+        setTimeout(function () {
+            mainColort(root1);
+            Reallocatet(root1, window.innerWidth / 2, rootTopPosition1);
+            var temp = mostLeftt(root1);
+            if (parseInt(temp.node1.left) < 0) {
+                setPositiont(root1, -1 * parseInt(temp.node1.left));
+            }
+        }, time1);
+    }
+    function Addt() {
+        if (input.value == "") {
+            alert("You must enter a value.");
+            return;
+        }
+        // mainColor(root1);
+        if (!root1) {
+            root1 = new Node1(parseInt(input.value), window.innerWidth / 2, rootTopPosition1);
+            return;
+        }
+        else {
+            root1 = insertt(parseInt(input.value), root1, root1.node1.left, root1.node1.top);
+        }
+        setTimeout(function () {
+            Reallocatet(root1, window.innerWidth / 2, rootTopPosition1);
+            var temp = mostLeftt(root1);
+            if (parseInt(temp.node1.left) < 0) {
+                setPositiont(root1, -1 * parseInt(temp.node1.left));
+            }
+            mainColort(root1);
+        }, time1);
+    }
+
+
+    function insertt(val, node1, x, y) {
+        if (!node1) {
+            return new Node1(val, x, y);
+        }
+        if (val < node1.n.innerHTML) {
+            node1.node1.backgroundColor = "yellow";
+            node1.left = insertt(val, node1.left, parseInt(node1.node1.left) - 50, parseInt(node1.node1.top) + 50);
+            // node.node.backgroundColor = "red";
+        }
+        else if (val > node1.n.innerHTML) {
+            node1.node1.backgroundColor = "yellow";
+            node1.right = insertt(val, node1.right, parseInt(node1.node1.left) + 50, parseInt(node1.node1.top) + 50);
+            // node.node.backgroundColor = "red";
+        }
+        else {
+            // node.node.backgroundColor = "red";
+            return node1;
+        }
+        node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+
+        var balance = GetBalancet(node1);
+
+        // left left rotation
+        if (balance > 1 && val < node1.left.n.innerHTML) {
+            node1 = rotateToRightt(node1);
+            return node1;
+        }
+
+        // right right rotation
+        else if (balance < -1 && val > node1.right.n.innerHTML) {
+            node1 = rotateToLeftt(node1);
+            return node1;
+        }
+
+        if (balance > 1 && val > node1.left.n.innerHTML) {
+            node1.left = rotateToLeftt(node1.left);
+            node1 = rotateToRightt(node1);
+            return node1;
+        }
+
+        // Right Left Case
+        if (balance < -1 && val < node1.right.n.innerHTML) {
+            node1.right = rotateToRightt(node1.right);
+            node1 = rotateToLeftt(node1);
+            return node1;
+        }
+        return node1;
+    }
+
+    function Heightt(node1) {
+        if (!node1) {
+            return -1;
+        }
+        return node1.h;
+    }
+
+    function GetBalancet(node1) {
+        if (!node1) {
+            return 0;
+        }
+        return Heightt(node1.left) - Heightt(node1.right);
+    }
+
+    function rotateToRightt(node1) {
+        var n = node1.left;
+        var nr = n.right;
+        n.right = node1;
+        node1.left = nr;
+        node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+        n.h = 1 + Math.max(Heightt(n.left), Heightt(n.right));
+        return n;
+    }
+
+    function rotateToLeftt(node1) {
+        var newP = node1.right;
+        var temp = newP.left;
+        newP.left = node1;
+        node1.right = temp;
+        node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+        newP.h = 1 + Math.max(Heightt(newP.left), Heightt(newP.right));
+        return newP;
+    }
+
+    function Reallocatet(node1, x, y) {
+        if (!node1)
+            return;
+        var temp = (Math.pow(2, node1.h - 1)) * 50;
+
+        if (node1.linel) {
+            document.body.removeChild(node1.linel);
+            node1.linel = null;
+        }
+        if (node1.liner) {
+            document.body.removeChild(node1.liner);
+            node1.liner = null;
+        }
+
+        if (node1.left) {
+            node1.linel = getLinet(x, y, x - temp, y + 100, 1);
+        }
+        if (node1.right) {
+            node1.liner = getLinet(x, y, x + temp, y + 100, -1);
+        }
+
+        node1.node1.left = x + 'px';
+        node1.node1.top = y + 'px';
+        // node.node.backgroundColor = "red";
+        Reallocatet(node1.left, x - temp, y + 100);
+        Reallocatet(node1.right, x + temp, y + 100);
+    }
+
+    function mostLeftt(node1) {
+        var cur = node1;
+        while (cur.left) {
+            cur = cur.left;
+        }
+        return cur;
+    }
+
+    function setPositiont(node1, shifting) {
+        if (!node1) {
+            return;
+        }
+        setPosition(node1.left, shifting);
+        setPosition(node1.right, shifting);
+        node1.node1.left = parseInt(node1.node1.left) + shifting + 'px';
+        if (node1.linel) {
+            node1.linel.style.left = parseInt(node1.linel.style.left) + shifting + 'px';
+        }
+        if (node1.liner) {
+            node1.liner.style.left = parseInt(node1.liner.style.left) + shifting + 'px';
+        }
+    }
+
+    function Searcht(val, node1) {
+        if (!node1) {
+            alert("Not found :V");
+            return;
+        }
+        else if (node1.n.innerHTML == val) {
+            node1.node.backgroundColor = "blue";
+            alert("Found :D");
+            return;
+        }
+        else if (node1.n.innerHTML < val) {
+            node1.node1.backgroundColor = "yellow";
+            Searcht(val, node1.right);
+            // node.node.backgroundColor = "red";
+        }
+        else if (node1.n.innerHTML > val) {
+            node1.node1.backgroundColor = "yellow";
+            Searcht(val, node1.left);
+            // node.node.backgroundColor = "red";
+        }
+    }
+
+    function Deletet(val, node1) {
+        if (!node1) {
+            return node1;
+        }
+        node1.node1.backgroundColor = "yellow";
+        if (val < node1.n.innerHTML) {
+            node1.left = Deletet(val, node1.left);
+        }
+        else if (val > node1.n.innerHTML) {
+            node1.right = Deletet(val, node1.right);
+        }
+        else if (val == node1.n.innerHTML) {
+            if (!node1.left) {
+                var temp = node1;
+                node1 = node1.right;
+                document.body.removeChild(temp.n);
+                if (node1) {
+                    document.body.removeChild(temp.liner);
+                }
+                console.log(delete temp);
+                temp = null;
+                return node1;
+            }
+            else if (!node1.right) {
+                var temp = node1;
+                node1 = node1.left;
+                document.body.removeChild(temp.n);
+                document.body.removeChild(temp.linel);
+                temp = null;
+                console.log(delete temp);
+                return node1;
+            }
+            else {
+                var temp = mostLeftt(node1.right);
+                node1.n.innerHTML = temp.n.innerHTML;
+                node1.right = Deletet(parseInt(temp.n.innerHTML), node1.right);
+            }
+        }
+        node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
+
+        var balance = GetBalancet(node1);
+
+
+
+        // Left Left Case
+        if (balance > 1 && GetBalancet(node1.left) >= 0) {
+            node1 = rotateToRightt(node1);
+            return node1;
+        }
+
+
+        // Right Right Case
+        if (balance < -1 && GetBalancet(node1.right) <= 0) {
+            node1 = rotateToLeftt(node1);
+            return node1;
+        }
+
+        // Left Right Case
+        if (balance > 1 && GetBalancet(node.left) < 0) {
+            node1.left = rotateToLeftt(node1.left);
+            node1 = rotateToRightt(node1);
+            return node1;
+        }
+
+        // Right Left Case
+        if (balance < -1 && GetBalancet(node1.right) > 0) {
+            node1.right = rotateToRightt(node1.right);
+            node1 = rotateToLeftt(node1);
+            return node1;
+        }
+        return node1;
+    }
+
+    function Node1(val, x, y) {
+        this.left = null;
+        this.right = null;
+        this.h = 0;
+        this.n = document.createElement('div');
+        this.n.innerHTML = val;
+        this.n.className = "node1";
+        this.node1 = this.n.style;
+        this.node1.top = y + 'px';
+        this.node1.left = x + 'px';
+        this.linel = null;
+        this.liner = null;
+        document.body.appendChild(this.n);
+        return this;
+    }
+
+    function sleept(ms) {
+        var curT = new Date().getTime();
+        var duration = curT + ms;
+        while (curT < duration) {
+            curT = new Date().getTime();
+        }
+    }
+
+    function getLengtht(x1, y1, x2, y2) {
+        var x = Math.pow(y1 - y2, 2);
+        var y = Math.pow(x1 - x2, 2);
+        return Math.sqrt(x + y);
+    }
+
+    function getAnglet(x1, x2, dist) {
+        var a = Math.abs(x1 - x2);
+        return Math.asin(a / dist);
+    }
+
+    function getLinet(x1, y1, x2, y2, fact) {
+        var line = document.createElement('div');
+        line.className = "linet";
+        line.style.top = y1 + 25 + 'px';
+        line.style.left = x1 + 25 + 'px';
+        var length = getLengtht(x1, y1, x2, y2);
+        line.style.height = length + 'px';
+        line.style.transform = "rotate(" + fact * getAnglet(x1, x2, length) + "rad)";
+        document.body.appendChild(line);
+        return line;
+    }
+
+    function mainColort(node1) {
+        if (!node1)
+            return;
+        node1.node1.backgroundColor = "red";
+        mainColort(node1.left);
+        mainColort(node1.right);
+    }
+</script>

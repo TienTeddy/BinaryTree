@@ -12,7 +12,7 @@
         <div class="col-sm-3 row" style="background-color: khaki;">
             <div class="col-md-8">
                 <h3><strong>Array</strong></h3>
-                <small><strong id="number-array">NUMBER[...]:&nbsp;8</strong></small>
+                <small><strong id="number-array">NUMBER1[...]:&nbsp;8</strong></small>
                 <small><strong id="number-red">NUMBER-RED:&nbsp;0</strong></small>
             </div>
             <div class="col-md-3">
@@ -62,16 +62,30 @@
 
 <hr>
 <div class="content-Tree">
-    <h3 style="text-align:center;margin-top:-1%"><strong>DRAW TREE</strong></h3>
-    <div id="results-array">
-        @Html.Partial("Contact")
-        <!--Tree 1
-    <div class='input-box'>
-        <input id='tree-input' type='number' placeholder='Enter number'>
-        <button id='add-to-tree' onclick="addToTree()">Add To Tree</button>
-    </div>-->
+    <h3 style="text-align:center;margin-top:-0%"><strong>DRAW TREE</strong></h3>
+    <div id="results-array" style="position:absolute">
+
+        <!--Tree 1-->
+        <div class="Tree1-infor">
+            <h4><strong>Binary Tree 1 - Infor</strong></h4>
+            <p><strong id="Tree1-amount">Amount:</strong></p>
+            <p><strong id="Tree1-height">Height:</strong></p>
+            <strong id="Tree1-status">Status:</strong>
+        </div>
+        <div id="Tree-AVL-1" style="background-color:chocolate;"></div>
+        <!--End Tree 1-->
         <!--Tree 2-->
-        <button id="add" onclick="run()">Insert</button>
+        
+        <div id="Tree-AVL" style="background-color:red;margin-top:200%;position:absolute">
+            <div class="Tree2-infor">
+                <h4><strong>Binary Tree 2 - Infor</strong></h4>
+                <p><strong id="Tree2-amount">Amount:</strong></p>
+                <p><strong id="Tree2-height">Height:</strong></p>
+                <strong id="Tree2-status">Status:</strong>
+            </div>
+        </div>
+        <!--End Tree 2-->
+
     </div>
 </div>
 
