@@ -67,21 +67,39 @@
 
         <!--Tree 1-->
         <div class="Tree1-infor">
-            <h4><strong>Binary Tree 1 - Infor</strong></h4>
-            <p><strong id="Tree1-amount">Amount:</strong></p>
-            <p><strong id="Tree1-height">Height:</strong></p>
-            <strong id="Tree1-status">Status:</strong>
+            <h4 class="text-center"><strong>Binary Tree</strong></h4>
+            <table class="table table-responsive" width="100">
+                <tr>
+                    <td id="Tree1-max">Max:</td>
+                    <td id="Tree1-min">Min:</td>
+                    <td id="Tree1-height">Height:</td>
+                </tr>
+                <tr>
+                    <td id="Tree1-status">Status:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
         </div>
         <div id="Tree-AVL-1" style="background-color:chocolate;"></div>
         <!--End Tree 1-->
         <!--Tree 2-->
         
-        <div id="Tree-AVL" style="background-color:red;margin-top:200%;position:absolute">
+        <div id="Tree-AVL" style="margin-top:170%;position:absolute">
             <div class="Tree2-infor">
-                <h4><strong>Binary Tree 2 - Infor</strong></h4>
-                <p><strong id="Tree2-amount">Amount:</strong></p>
-                <p><strong id="Tree2-height">Height:</strong></p>
-                <strong id="Tree2-status">Status:</strong>
+                <table class="table table-responsive" width="100" style="float:inherit;margin-left:240%;position:absolute;border-top:hidden">
+                    <tr><td><h4 class="text-right"><strong>Tree AVL</strong></h4></td></tr>
+                    <tr>
+                        <td id="Tree2-max">Max:</td>
+                        <td id="Tree2-min">Min:</td>
+                        <td id="Tree2-height">Height:</td>
+                    </tr>
+                    <tr>
+                        <td id="Tree2-status">Status:</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
             </div>
         </div>
         <!--End Tree 2-->
@@ -99,8 +117,8 @@
             <div class="modal-body row">
 
                 <div class="tron col-sm-2"><a href="#"><i style='font-size:40px' class='fas'>&#xf002;</i></a></div>
-                <div class="col-sm-7"><input class="form-control" /><small>The result will display background red</small></div>
-                <div class="col-sm-1"><button class="btn btn-info">Submit</button></div>
+                <div class="col-sm-7"><input class="form-control" id="values_search"/><small>The result will display background red</small></div>
+                <div class="col-sm-1"><button class="btn btn-info" id="submit_search" data-dismiss="modal">Submit</button></div>
                 <div class="col-sm-2"></div>
             </div>
         </div>

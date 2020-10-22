@@ -27,7 +27,7 @@ function validate(evt) {
         var key = theEvent.keyCode || theEvent.which;
         key = String.fromCharCode(key);
     }
-    var regex = /[0-9]|\./;
+    var regex = /[0-9]|\-/;
     if (!regex.test(key)) {
         theEvent.returnValue = false;
         if (theEvent.preventDefault) theEvent.preventDefault();
@@ -82,17 +82,6 @@ function showInput() {
         for (var j = 0; j < numberred; j++) {
             if (arrayred != null) {
                 if (array[i] == arrayred[j]) {
-                    /*var index = array.indexOf(arrayred[j]);
-                    if (index > -1) {
-                        array.splice(index, 1);
-                    }*/
-                    /*if (i == 0) { array = array.slice(1, count); dem += 1;}
-                    else if (i == count - 1) {
-                        array = array.slice(0, count - 1);
-                    }
-                    else {
-                        array = array.slice(0, i)+","+ array.slice(i+1, count);
-                    }*/
                     if (i == 0) { array.shift(); }
                     else if (i == count - 1) {
                         array.pop();
@@ -164,8 +153,6 @@ Deleteet.onclick = function () {
 }*/
 
 function runTree1(aa) {
-    //var a = [10, 2, 3, 4, 5, 6];
-
     kkk = 0;
     (function runt(iii) {
 
@@ -185,7 +172,7 @@ function callSearcht(n) {
     Searcht(parseInt(n), root1);
     setTimeout(function () {
         mainColort(root1);
-    }, 3 * time1);
+    }, 5 * time1);
 }
 function callDeletet(n) {
     if (n == "") {
@@ -195,13 +182,14 @@ function callDeletet(n) {
     root1 = Deletet(parseInt(n), root1);
     setTimeout(function () {
         mainColort(root1);
-        Reallocatet(root1, window.innerWidth / 3, rootTopPosition1);
+        Reallocatet(root1, window.innerWidth / 2, rootTopPosition1);
         var temp = mostLeftt(root1);
         if (parseInt(temp.node1.left) < 0) {
             setPositiont(root1, -1 * parseInt(temp.node1.left));
         }
     }, time1);
 }
+var min = 99999; var max = -99999;
 function Addt(n) {
     if (n == "") {
         alert("You must enter a value.");
@@ -209,24 +197,45 @@ function Addt(n) {
     }
     // mainColor(root1);
     if (!root1) {
-        root1 = new Node1(parseInt(n), window.innerWidth / 3, rootTopPosition1 - 30);
+        root1 = new Node1(parseInt(n), window.innerWidth / 2, rootTopPosition1 - 30); 
+        //find min
+        if (n < min) {
+            min = n;
+            $("#Tree1-min").html("Min:&nbsp;" + min);
+        }
+        //find max
+        if (n > max) {
+            max = n;
+            $("#Tree1-max").html("Max:&nbsp;" + max);
+        }
         return;
     }
     else {
         root1 = insertt(parseInt(n), root1, root1.node1.left, root1.node1.top);
     }
     setTimeout(function () {
-        Reallocatet(root1, window.innerWidth / 3, rootTopPosition1 - 30);
+        Reallocatet(root1, window.innerWidth / 2, rootTopPosition1 - 30);
         var temp = mostLeftt(root1);
         if (parseInt(temp.node1.left) < 0) {
-            setPositiont(root1, -1 * parseInt(temp.node1.left));
+            setPositiont(root1, -1 * parseInt(temp.node1.left)-100);
         }
         mainColort(root1);
     }, time1);
 }
 
-
+var heightTree1 = 0;
 function insertt(val, node1, x, y) {
+    //find min
+    if (val < min) {
+        min = val;
+        $("#Tree1-min").html("Min:&nbsp;" + min);
+    }
+    //find max
+    if (val > max) {
+        max = val;
+        $("#Tree1-max").html("Max:&nbsp;" + max);
+    }
+
     if (!node1) {
         return new Node1(val, x, y);
     }
@@ -235,7 +244,7 @@ function insertt(val, node1, x, y) {
         node1.left = insertt(val, node1.left, parseInt(node1.node1.left) - 55, parseInt(node1.node1.top) + 55);
         // node.node.backgroundColor = "red";
     }
-    else if (val > node1.n.innerHTML) {
+    else if (val >= node1.n.innerHTML) {
         node1.node1.backgroundColor = "yellow";
         node1.right = insertt(val, node1.right, parseInt(node1.node1.left) + 55, parseInt(node1.node1.top) + 55);
         // node.node.backgroundColor = "red";
@@ -245,11 +254,11 @@ function insertt(val, node1, x, y) {
         return node1;
     }
     node1.h = 1 + Math.max(Heightt(node1.left), Heightt(node1.right));
-
+    heightTree1 = node1.h;
+    $("#Tree1-height").html("Height:&nbsp;" + Number(heightTree1 + 1));
     var balance = GetBalancet(node1);
     return node1;
 }
-
 function Heightt(node1) {
     if (!node1) {
         return -1;
@@ -287,7 +296,7 @@ function rotateToLeftt(node1) {
 function Reallocatet(node1, x, y) {
     if (!node1)
         return;
-    var temp = (Math.pow(2, node1.h-2)) * 30;
+    var temp = (Math.pow(2, node1.h-1)) * 35;
 
     if (node1.linel) {
         document.getElementById("Tree-AVL-1").removeChild(node1.linel);
@@ -337,21 +346,20 @@ function setPositiont(node1, shifting) {
 
 function Searcht(val, node1) {
     if (!node1) {
-        alert("Not found :V");
+        alert("Not found!");
         return;
     }
     else if (node1.n.innerHTML == val) {
-        node1.node.backgroundColor = "blue";
-        alert("Found :D");
+        node1.node1.backgroundColor = "yellow";
         return;
     }
     else if (node1.n.innerHTML < val) {
-        node1.node1.backgroundColor = "yellow";
+        node1.node1.backgroundColor = "blue";
         Searcht(val, node1.right);
         // node.node.backgroundColor = "red";
     }
     else if (node1.n.innerHTML > val) {
-        node1.node1.backgroundColor = "yellow";
+        node1.node1.backgroundColor = "blue";
         Searcht(val, node1.left);
         // node.node.backgroundColor = "red";
     }
@@ -372,7 +380,7 @@ function Deletet(val, node1) {
         if (!node1.left) {
             var temp = node1;
             node1 = node1.right;
-            document.body.removeChild(temp.n);
+            document.getElementById("Tree-AVL-1").removeChild(temp.n);
             if (node1) {
                 document.getElementById("Tree-AVL-1").removeChild(temp.liner);
             }
@@ -399,34 +407,6 @@ function Deletet(val, node1) {
 
     var balance = GetBalancet(node1);
 
-
-
-    // Left Left Case
-    if (balance > 1 && GetBalancet(node1.left) >= 0) {
-        node1 = rotateToRightt(node1);
-        return node1;
-    }
-
-
-    // Right Right Case
-    if (balance < -1 && GetBalancet(node1.right) <= 0) {
-        node1 = rotateToLeftt(node1);
-        return node1;
-    }
-
-    // Left Right Case
-    if (balance > 1 && GetBalancet(node.left) < 0) {
-        node1.left = rotateToLeftt(node1.left);
-        node1 = rotateToRightt(node1);
-        return node1;
-    }
-
-    // Right Left Case
-    if (balance < -1 && GetBalancet(node1.right) > 0) {
-        node1.right = rotateToRightt(node1.right);
-        node1 = rotateToLeftt(node1);
-        return node1;
-    }
     return node1;
 }
 
@@ -540,14 +520,10 @@ Deletee.onclick = function () {
 }*/
 
 function callSearch(inp) {
-    if (inp == "") {
-        alert("You must enter a value.");
-        return;
-    }
     Search(parseInt(inp), root);
     setTimeout(function () {
         mainColor(root);
-    }, 3 * time);
+    }, 5 * time);
 }
 function callDelete(inp) {
     if (inp == "") {
@@ -557,13 +533,15 @@ function callDelete(inp) {
     root = Delete(parseInt(inp), root);
     setTimeout(function () {
         mainColor(root);
-        Reallocate(root, window.innerWidth / 3, rootTopPosition);
+        Reallocate(root, window.innerWidth / 4, rootTopPosition);
         var temp = mostLeft(root);
         if (parseInt(temp.node.left) < 0) {
             setPosition(root, -1 * parseInt(temp.node.left));
         }
     }, time);
 }
+
+var min2 = 99999; var max2 = -99999;
 function Add(inp) {
     if (inp == "") {
         alert("You must enter a value.");
@@ -571,14 +549,24 @@ function Add(inp) {
     }
     // mainColor(root);
     if (!root) {
-        root = new Node(parseInt(inp), window.innerWidth / 3, rootTopPosition - 30); //rootTopPosition = top
+        root = new Node(parseInt(inp), window.innerWidth / 4, rootTopPosition - 30); //rootTopPosition = top
+        //find min
+        if (inp < min2) {
+            min2 = inp;
+            $("#Tree2-min").html("Min:&nbsp;" + min2);
+        }
+        //find max
+        if (inp > max2) {
+            max2 = inp;
+            $("#Tree2-max").html("Max:&nbsp;" + max2);
+        }
         return;
     }
     else {
         root = insert(parseInt(inp), root, root.node.left, root.node.top);
     }
     setTimeout(function () {
-        Reallocate(root, window.innerWidth / 3, rootTopPosition - 30);
+        Reallocate(root, window.innerWidth / 4, rootTopPosition - 30);
         var temp = mostLeft(root);
         if (parseInt(temp.node.left) < 0) {
             setPosition(root, -1 * parseInt(temp.node.left) - 100);
@@ -587,8 +575,20 @@ function Add(inp) {
     }, time);
 }
 
-
+var nameNotBalance = new Array(); var countNameNotBalance = 0;
+var numberBalance = new Array(); var countNumberBalance = 0;
+var heightTree2 = 0;
 function insert(val, node, x, y) {
+    //find min
+    if (val < min2) {
+        min2 = val;
+        $("#Tree2-min").html("Min:&nbsp;" + min2);
+    }
+    //find max
+    if (val > max2) {
+        max2 = val;
+        $("#Tree2-max").html("Max:&nbsp;" + max2);
+    }
     if (!node) {
         return new Node(val, x, y);
     }
@@ -597,7 +597,7 @@ function insert(val, node, x, y) {
         node.left = insert(val, node.left, parseInt(node.node.left) - 55, parseInt(node.node.top) + 55);
         // node.node.backgroundColor = "red";
     }
-    else if (val > node.n.innerHTML) {
+    else if (val >= node.n.innerHTML) {
         node.node.backgroundColor = "yellow";
         node.right = insert(val, node.right, parseInt(node.node.left) + 55, parseInt(node.node.top) + 55);
         // node.node.backgroundColor = "red";
@@ -606,23 +606,30 @@ function insert(val, node, x, y) {
         // node.node.backgroundColor = "red";
         return node;
     }
-    node.h = 1 + Math.max(Height(node.left), Height(node.right));
-
-    var balance = GetBalance(node);
+    node.h = 1 + Math.max(Height(node.left),Height(node.right));
+    heightTree2 = node.h;
+    $("#Tree2-height").html("Height:&nbsp;" + Number(heightTree2));
+    var balance = GetBalance(node); 
 
     // left left rotation
     if (balance > 1 && val < node.left.n.innerHTML) {
+        nameNotBalance[countNameNotBalance] = "Right";
+        numberBalance[countNumberBalance] = node.n.innerHTML;
         node = rotateToRight(node);
         return node;
     }
 
     // right right rotation
     else if (balance < -1 && val > node.right.n.innerHTML) {
+        nameNotBalance[countNameNotBalance] = "Left";
+        numberBalance[countNumberBalance] = node.n.innerHTML;
         node = rotateToLeft(node);
         return node;
     }
 
     if (balance > 1 && val > node.left.n.innerHTML) {
+        nameNotBalance[countNameNotBalance] = "Left";
+        numberBalance[countNumberBalance] = node.n.innerHTML;
         node.left = rotateToLeft(node.left);
         node = rotateToRight(node);
         return node;
@@ -630,10 +637,14 @@ function insert(val, node, x, y) {
 
     // Right Left Case
     if (balance < -1 && val < node.right.n.innerHTML) {
+        nameNotBalance[countNameNotBalance] = "Right";
+        numberBalance[countNumberBalance] = node.n.innerHTML;
         node.right = rotateToRight(node.right);
         node = rotateToLeft(node);
         return node;
     }
+    countNameNotBalance += 1;
+    countNumberBalance += 1;
     return node;
 }
 
@@ -724,21 +735,20 @@ function setPosition(node, shifting) {
 
 function Search(val, node) {
     if (!node) {
-        alert("Not found :V");
+        alert("Not found!");
         return;
     }
     else if (node.n.innerHTML == val) {
-        node.node.backgroundColor = "blue";
-        alert("Found :D");
+        node.node.backgroundColor = "yellow";
         return;
     }
     else if (node.n.innerHTML < val) {
-        node.node.backgroundColor = "yellow";
+        node.node.backgroundColor = "blue";
         Search(val, node.right);
         // node.node.backgroundColor = "red";
     }
     else if (node.n.innerHTML > val) {
-        node.node.backgroundColor = "yellow";
+        node.node.backgroundColor = "blue";
         Search(val, node.left);
         // node.node.backgroundColor = "red";
     }
@@ -929,32 +939,34 @@ $(document).ready(function () {
         $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + string + "&nbsp; ]");
     });
     $("#reset_").click(function () {
-        $(".inp").prop("readonly", false);
-
-        actions.length = actions.length + 1;
-        for (var i = 0; i < ii; i++) {
-            //var value = $("#array-" + i).val();
-            this.value = null;
-            $("#array-" + i).prop("readonly", false);
-            $("#array-" + i).css("background-color", "white");
-            $("#array-" + i).css("color", "black");
-        }
-        arrayred = new Array(); //array = null;
-        numberred = 0;
+        window.location.reload(true);
     });
-
+    $("#submit_search").click(function () {
+        var v = $("#values_search").val();
+        if (!v) {
+            return false;
+        }
+        callSearcht(v);
+        setTimeout(() => {
+            callSearch(v);
+        }, 4 * time + 1100);
+        return true;
+    });
     //delete Node
     $("#submit_delete").click(function () {
-        co = true;
+        co = true; 
         var str1 = string;
         var val = $("#value-delete").val();
         var boolean = false;
-        dem += 1;
+        var phu="";
         if (temporaty[0] != null) {
-            for (var i = 0; i < ii - dem; i++) {
+            for (var i = 0; i < ii * 2 - numberred*2; i++) {
+                if (str1[i]+str1[i+1] === val) {
+                    boolean = true; 
+                }
                 if (str1[i] === val) {
                     boolean = true;
-                    str1 = str1.slice(0, i) + str1.slice(i + 2, ii + 1);
+                    str1 = str1.slice(0, i) + str1.slice(i + 2, ii * 2);
                 }
             }
         }
@@ -964,10 +976,10 @@ $(document).ready(function () {
         }
 
         //check boolean
-        if (boolean == true) {
+        if (boolean === true) {
             alert("Delete node->value = " + val + ", success!");
             $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + str1 + "&nbsp; ]");
-            $("#results-array").html(str1);
+           // $("#results-array").html(str1);
             string = str1;
 
             for (var i = 0; i < ii; i++) {
@@ -978,18 +990,36 @@ $(document).ready(function () {
                     $("#array-" + i).css("color", "white");
 
                     arrayred[numberred] = Number(value);
+                    callDeletet(Number(value)); 
+                    callDelete(Number(value));
                     numberred += 1;
+
+
                 }
+                
             }
 
             $("#number-array").html("NUMBER[...]:&nbsp;" + (countT - dem));
             $("#number-red").html("NUMBER-RED[...]:&nbsp;" + (numberred));
+
+            var minn = 99999; var maxx = -99999;
+            $.each(actions, function (index, value) {
+                for (var i = 0; i < arrayred.length;i++) {
+                    if (actions[index] !== arrayred[i]) {
+                        if (minn > actions[index]) {
+                            minn = actions[index];
+                        }
+                        if (maxx < actions[index]) {
+                            maxx = actions[index];
+                        }
+                    }
+                }
+            })
+
+            $("#Tree2-min").html("Min:&nbsp;" + minn); $("#Tree1-min").html("Min:&nbsp;" + minn);
+            $("#Tree2-max").html("Max:&nbsp;" + maxx); $("#Tree1-max").html("Max:&nbsp;" + maxx);
             return true;
         }
-        else {
-            alert("Find node not exits!");
-            return false;
-        }
-
+        
     });
 });

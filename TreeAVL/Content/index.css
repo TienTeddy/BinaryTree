@@ -1,4 +1,4 @@
-﻿body {
+﻿body { /*background-color:#e4e8e7*/
 }
 
 .inp {
@@ -38,6 +38,7 @@
     padding: 2.5%;
     padding-right: 2%;
     padding-bottom: 4%;
+    background-color:white;
 }
 
 .textNumber {
@@ -66,16 +67,16 @@
 }
 
 .content-Tree {
-    position:relative;
+    position: relative;
     margin-top: 1%;
     width: 100%;
-    height: 1200px;
+    height: 1160px;
     box-shadow: 0.3em 0.3em 1em rgba(0,0,0,0.3);
     margin-bottom: 4%;
     padding-left: 2%;
     padding-right: 2%;
     padding-bottom: 4%;
-    padding-top:1%;
+    padding-top: 1%;
 }
 .modal-title{
     text-align:center;
@@ -106,16 +107,15 @@
     position: absolute;
     transform-origin: top left;
     z-index: -1;
+
 }
 
 /*Tree1-infor*/
 .Tree1-infor{
     float:left;
-    background-color:bisque;
     width:320px;
 }
 .Tree2-infor {
-    float: left;
-    background-color: bisque;
+    float: right;
     width: 320px;
 }
