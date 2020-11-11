@@ -5,6 +5,10 @@ var array = new Array();
 var actions = new Array();
 var TucA = new Array();
 var co = false;
+var actionss = new Array();
+var flag = 0;
+
+var unbalace = 0;
 
 var myVar = setInterval(function () {
     myTimer();
@@ -62,7 +66,7 @@ function add_Array() {
 };
 
 function showInput() {
-
+    flag = 0;
     var values;
     var next = 0; var next1 = 0;
     if (array == null) {
@@ -257,6 +261,7 @@ function insertt(val, node1, x, y) {
     heightTree1 = node1.h;
     $("#Tree1-height").html("Height:&nbsp;" + Number(heightTree1 + 1));
     var balance = GetBalancet(node1);
+    st = "";
     return node1;
 }
 function Heightt(node1) {
@@ -575,6 +580,8 @@ function Add(inp) {
     }, time);
 }
 
+var nameNotBalance1 = new Array();
+var numberBalance1 = new Array();   
 var nameNotBalance = new Array(); var countNameNotBalance = 0;
 var numberBalance = new Array(); var countNumberBalance = 0;
 var heightTree2 = 0;
@@ -608,13 +615,18 @@ function insert(val, node, x, y) {
     }
     node.h = 1 + Math.max(Height(node.left),Height(node.right));
     heightTree2 = node.h;
-    $("#Tree2-height").html("Height:&nbsp;" + Number(heightTree2));
+    $("#Tree2-height").html("Height:&nbsp;" + Number(heightTree2+1));
     var balance = GetBalance(node); 
 
     // left left rotation
     if (balance > 1 && val < node.left.n.innerHTML) {
         nameNotBalance[countNameNotBalance] = "Right";
         numberBalance[countNumberBalance] = node.n.innerHTML;
+
+        countNameNotBalance += 1;
+        countNumberBalance += 1;
+        unbalace += 1;
+
         node = rotateToRight(node);
         return node;
     }
@@ -623,6 +635,11 @@ function insert(val, node, x, y) {
     else if (balance < -1 && val > node.right.n.innerHTML) {
         nameNotBalance[countNameNotBalance] = "Left";
         numberBalance[countNumberBalance] = node.n.innerHTML;
+
+        countNameNotBalance += 1;
+        countNumberBalance += 1;
+        unbalace -= 1;
+
         node = rotateToLeft(node);
         return node;
     }
@@ -630,6 +647,11 @@ function insert(val, node, x, y) {
     if (balance > 1 && val > node.left.n.innerHTML) {
         nameNotBalance[countNameNotBalance] = "Left";
         numberBalance[countNumberBalance] = node.n.innerHTML;
+
+        countNameNotBalance += 1;
+        countNumberBalance += 1;
+        unbalace -= 1;
+
         node.left = rotateToLeft(node.left);
         node = rotateToRight(node);
         return node;
@@ -640,11 +662,14 @@ function insert(val, node, x, y) {
         nameNotBalance[countNameNotBalance] = "Right";
         numberBalance[countNumberBalance] = node.n.innerHTML;
         node.right = rotateToRight(node.right);
+
+        countNameNotBalance += 1;
+        countNumberBalance += 1;
+        unbalace += 1;
+
         node = rotateToLeft(node);
         return node;
     }
-    countNameNotBalance += 1;
-    countNumberBalance += 1;
     return node;
 }
 
@@ -888,6 +913,7 @@ var resultTree1 = new Array();
 $(document).ready(function () {
     //call spinner off
     $('#spinner-action').hide();
+    $('#image_success').hide();
 
     $("#run_").click(function () {
         if (temporaty[0] == null) {
@@ -923,15 +949,43 @@ $(document).ready(function () {
                         //runTree1(resultTree1);
                         run(actions);
                     }, actions.length * 1100);
-
                 }, 1000);
             },
         });
-
+        
+        // unbalance on any side?
+        setTimeout(() => {
+            var str_ = "";
+            if (numberBalance.length==0) {
+                $("#Tree1-status").html("<p style='color:red'>Status: Balance</p>");
+            }
+            else {
+                if (unbalace >= 1) {
+                    $("#Tree1-status").html("<p style='color:red'>Status: Unbalance &nbsp; L-L</p>");
+                }
+                else {
+                    $("#Tree1-status").html("<p style='color:red'>Status: Unbalance &nbsp; R-R</p>");
+                }
+            }
+            for (var i = 0; i < numberBalance.length; i++) {
+                console.log(numberBalance[i] + "-" + nameNotBalance);
+                str_ += "<p style='color:red'> - " + nameNotBalance[i] + "_" + numberBalance[i] + "</p>";
+            }
+            numberBalance.slice(0, numberBalance.length);
+            nameNotBalance.slice(0, nameNotBalance.length);
+            console.log(str_);
+            $('#solution1').html("<p style='color:red'>Solution: &nbsp;</p>" + str_);
+            $("#Tree2-status").html("<p style='color:red'>Status: Balance</p>");
+        }, actions.length * 2500);
+        
         return true;
     });
     $("#edit_").click(function () {
         $(".inp").prop("readonly", false);
+        $.each(actions, function (index, value) {
+            callDeletet(actions[index]);
+            callDelete(actions[index]);
+        })
     });
     $("#delete_").click(function () {
         //var strd = showInput();
@@ -969,6 +1023,27 @@ $(document).ready(function () {
                     str1 = str1.slice(0, i) + str1.slice(i + 2, ii * 2);
                 }
             }
+
+
+            /// deleted
+            var st = "";
+            for (var i = 0; i < countNumberBalance; i++) {
+                if (numberBalance[i] == val) {
+                    numberBalance.slice(i, 1);
+                    nameNotBalance.slice(i, 1);
+                }
+            }
+            countNumberBalance -= 1;
+            for (var i = 0; i < countNumberBalance; i++) {
+                if (nameNotBalance[i] == "Right") {
+                    st += "<p>Left(node = " + numberBalance[i] + ")</p> <br/>";
+                }
+                else {
+                    st += "<p>Right(node = " + numberBalance[i] + ")</b> <br/>";
+                }
+            }
+            $("#Tree1-status").html("Status: Unbalance &nbsp; <p style='color:red'>" + st + "</p>");
+            $("#Tree2-status").html("Status: Balance");
         }
         else {
             alert("Nodes empty!");
@@ -977,7 +1052,11 @@ $(document).ready(function () {
 
         //check boolean
         if (boolean === true) {
-            alert("Delete node->value = " + val + ", success!");
+            $('#image_success').show();
+            setTimeout(() => {
+                $('#image_success').hide();
+            }, 1500);
+
             $("#values-array").html("Tree Array: &nbsp; [ &nbsp;" + str1 + "&nbsp; ]");
            // $("#results-array").html(str1);
             string = str1;
@@ -993,8 +1072,6 @@ $(document).ready(function () {
                     callDeletet(Number(value)); 
                     callDelete(Number(value));
                     numberred += 1;
-
-
                 }
                 
             }

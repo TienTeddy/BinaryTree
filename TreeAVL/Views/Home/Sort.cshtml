@@ -1,0 +1,532 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CÁC THUẬT TOÁN SẮP XẾP</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        div {
+            margin: 0px;
+        }
+        .btn {
+            margin: 5px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="amber">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">CÁC THUẬT TOÁN SẮP XẾP</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <input class="input-group" id="arr-new">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <input class="input-group" id="len1">
+                    <a id="2" type="button" class="btn btn-group">submit</a>
+                </div>
+            </div>
+
+        </div>
+        <div id="displayArea" style="background:#404040;"></div>
+        <div class="container center-align">
+            <div class="row">
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s4">
+                            <label for="currentState">Current State</label>
+                            <p class="range-field" id="currentStateRange">
+                                <input type="range" id="currentState" value="0" min="0" max="100" />
+                            </p>
+                        </div>
+                        <div class="col s6">
+                            <label for="delay"> TỐC ĐỘ </label>
+                            <p class="range-field" id="delayRange">
+                                <input type="range" id="delay" value="300" min="1" max="1000" />
+                            </p>
+                        </div>
+                        <div class="col s6">
+                            <label for="numElements">SỐ LƯỢNG</label>
+                            <p class="range-field" id="numElementsRange">
+                                <input type="range" id="numElements" value="10" min="2" max="100" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <button id="bubble" class="alg waves-effect waves-light btn blue-grey">Bubble Sort</button>
+                    <button id="selection" class="alg waves-effect waves-light btn blue-grey">Selection Sort</button>
+                    <!-- <button id="cocktail" class="alg waves-effect waves-light btn blue-grey">Cocktail Shaker</button> -->
+                    <!-- <button id="comb" class="alg waves-effect waves-light btn blue-grey">Comb</button> -->
+                    <button id="insertion" class="alg waves-effect waves-light btn blue-grey">Insertion Sort</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <button id="quick" class="alg waves-effect waves-light btn blue-grey">Quick Sort</button>
+                    <!-- <button id="radixLSD" class="alg waves-effect waves-light btn blue-grey">Radix (LSD)</button>
+                    <button id="radixMSD" class="alg waves-effect waves-light btn blue-grey">Radix (MSD)</button> -->
+                    <button id="heap" class="alg waves-effect waves-light btn blue-grey">Heap Sort</button>
+                    <button id="merge" class="alg waves-effect waves-light btn blue-grey">Merge Sort</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+
+                    <button id="playBack" class="waves-effect waves-light btn blue-grey">
+                        <i class="material-icons">fast_rewind</i>
+                    </button>
+                    <button id="stepBack" class="waves-effect waves-light btn blue-grey">
+                        <i class="material-icons">skip_previous</i>
+                    </button>
+                    <button id="stop" class="waves-effect waves-light btn red">
+                        <i class="material-icons">stop</i>
+                    </button>
+                    <button id="start" class="waves-effect waves-light btn green">
+                        <i class="material-icons">play_arrow</i>
+                    </button>
+                    <button id="stepNext" class="waves-effect waves-light btn blue-grey">
+                        <i class="material-icons">skip_next</i>
+                    </button>
+                    <button id="reset" class="waves-effect waves-light btn blue-grey">
+                        <i class="material-icons">replay</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <!-- Compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <script src="two.min.js"></script>
+    <script src="sorting.js"></script>
+    <script src="state.js"></script>
+
+    <script>
+        var array = new Array();
+        var LEN = 10;
+        // Retrieve the animation speed integer.
+        var delay = $("#delay").val();
+        // function randArray(length) {
+        //     //grab the arr
+        //     // tạo mảng gom sl LEN.
+        //     for (var arr = [], i = 0; i < length; ++i) {
+        //         arr[i] = i + 1;
+        //     }
+        //     // http://stackoverflow.com/questions/962802#962890
+        //     var tmp, current, top = arr.length;
+
+        //     if (top)
+        //         while (--top) {
+        //             current = Math.floor(Math.random() * (top + 1));
+        //             tmp = arr[current];
+        //             arr[current] = arr[top];
+        //             arr[top] = tmp;
+        //         }
+
+        //     return arr;
+        // }
+
+
+        // var arr = randArray(LEN);
+
+        var rects = [];
+        var baseState;
+        //console.log(baseState.data);
+        var states = [];
+        //states.push(baseState);
+
+        var currentState = 0;
+        var prevState = 0;
+        var two, xdef, maxWidth, paddef, barWidth, primary;
+        // $(document).ready(function () {
+        //     $("#bubble").trigger("click");
+        //     init();
+        //     draw(baseState);
+        // });
+
+        $(window).resize(function () {
+            init();
+            draw(states[currentState]);
+        });
+
+        $("#currentState").change(function () {
+            stop();
+            prevState = currentState;
+            currentState = $(this).val();
+            draw(states[currentState]);
+        });
+
+        $("#delay").change(function () {
+            stop();
+            delay = $(this).val();
+        });
+
+        $("#numElements").change(function () {
+            stop();
+            LEN = $(this).val();
+            $("#reset").trigger("click");
+            init();
+            draw(states[currentState]);
+        });
+
+        function init() {
+            $("#displayArea").empty();
+            $('script[src="two.min.js"]').remove();
+            $('<script>').attr('src', 'two.min.js').appendTo('head');
+            //initialize two.js
+            xdef = 0;
+            height = 400;
+            maxWidth = window
+                .innerWidth; //definitely look into moving into a setup() function that gets called when the window resizes
+            paddef = 1;
+            barWidth = ((maxWidth - (paddef * LEN)) / LEN)
+            primary = "#ffffff";
+            var elem = document.getElementById("displayArea");
+            var params = {
+                width: maxWidth,
+                height: height
+            };
+            two = new Two(params).appendTo(elem);
+        }
+
+        var debstring = "";
+
+
+        function arrayDiff(a, b) {
+            var diffs = [];
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] != b[i]) {
+                    diffs.push(i);
+                }
+            }
+            return diffs;
+        };
+
+        function arrayUnique(array) {
+            var a = array.concat();
+            for (var i = 0; i < a.length; ++i) {
+                for (var j = i + 1; j < a.length; ++j) {
+                    if (a[i] === a[j])
+                        a.splice(j--, 1);
+                }
+            }
+
+            return a;
+        }
+
+        function update(state) {
+            var diffs = arrayDiff(state.data, states[prevState].data);
+            // console.log(state.data);
+            var colorDiffs = arrayDiff(state.colors, states[prevState].colors);
+            diffs = arrayUnique(diffs.concat(colorDiffs));
+            var max = Math.max(...state.data);
+            for (var i = 0; i < diffs.length; i++) {
+                var rect = rects[diffs[i]];
+                var id = rect.id;
+                htmlID = "#" + id
+                $(htmlID).remove();
+                two.remove(rect);
+                var x = xdef + (barWidth * diffs[i]) + (paddef * diffs[i]) + (1 / 2 * barWidth);
+                var barHeight = (state.data[diffs[i]] / max) * height;
+                rect = two.makeRectangle(x, (height / 2) + (height / 2 - barHeight / 2) + 1, barWidth, barHeight);
+                rect.id = id;
+                if (state.colors[diffs[i]] != null) {
+                    rect.fill = state.colors[diffs[i]];
+                } else {
+                    rect.fill = primary;
+                }
+                rect.noStroke();
+            }
+            two.update();
+        }
+        //Draws the state passed as a parameter
+        function draw(state) {
+            two.clear();
+            rects = [];
+            //iterate through and draw it
+            var max = Math.max(...state.data);
+            var debug = document.getElementById("debug");
+            for (index in state.data) {
+                var x = xdef + (barWidth * index) + (paddef * index) + (1 / 2 * barWidth);
+                //percent of the maxmimum value, scaled to total height of graph
+                var barHeight = (state.data[index] / max) * height;
+                var rect = two.makeRectangle(x, (height / 2) + (height / 2 - barHeight / 2) + 1, barWidth, barHeight);
+                rects.push(rect);
+                //If the color is null, make it default color. Else draw given color for index.
+                if (state.colors[index]) {
+                    rect.fill = state.colors[index];
+                } else {
+                    rect.fill = primary;
+                }
+                rect.noStroke();
+            }
+            two.update();
+        }
+        var runner = null;
+
+        function playBack() {
+            runner = setInterval(function () {
+                stepBack();
+            }, delay);
+        }
+
+        function start() {
+            runner = setInterval(function () {
+                stepNext();
+            }, delay);
+        }
+
+        function stop() {
+            clearInterval(runner);
+            $("#start").removeClass("disabled");
+        }
+
+        //Step to next State
+
+        function stepNext() {
+            if (currentState != states.length - 1) {
+                console.log(currentState);
+                prevState = currentState;
+                currentState++;
+            }
+            update(states[currentState]);
+            $("#currentState").val(currentState);
+            if (currentState == states.length - 1) {
+                stop();
+            }
+        }
+
+        //Go to previous State
+        function stepBack() {
+            if (currentState != 0) {
+                prevState = currentState;
+                currentState--;
+            }
+            update(states[currentState]);
+            $("#currentState").val(currentState);
+            if (currentState == 0) {
+                stop();
+            }
+        }
+
+        function enableAllButtons() {
+            $(".alg").each(function () {
+                $(this).removeClass("disabled");
+            });
+        }
+        function rand(arr) {
+            //grab the arr
+            // tạo mảng gom sl LEN.
+            // http://stackoverflow.com/questions/962802#962890
+            var tmp, current, top = arr.length;
+
+            if (top)
+                while (--top) {
+                    current = Math.floor(Math.random() * (top + 1));
+                    tmp = arr[current];
+                    arr[current] = arr[top];
+                    arr[top] = tmp;
+                }
+
+            return arr;
+        }
+        //*****************************************
+        //  Button click handlers
+        //  We have the delay values re-assigned
+        //  inbetween function calls because we want
+        //  to have the most recent updated user
+        //  animation speed input.
+        //*****************************************
+        var obj = document.getElementById("bubble");
+        obj.addEventListener("click", function () {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#bubble").addClass("disabled");
+            states = bubbleSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+        ob = document.getElementById("2");
+        ob.addEventListener("click", function () {
+            //stop();
+            LEN = $("#len1").val();
+            delay = $("#delay").val();
+
+            var arr1 = $("#arr-new").val();
+
+            var number_array = 0;
+            array = arr1.split(' '); // split string on comma space
+            var c = rand(array);
+            console.log(c);
+
+            baseState = new State(c, {});
+            states = [];
+            states.push(baseState); // ???
+            // states = [];
+            // baseState = new State(array, {});
+            prevState = currentState;
+            currentState = 0;
+            //states.push(new State(randArray(LEN), {}));
+            init();
+            //draw(states[0]);
+            draw(baseState);
+            $("#currentState").val(0);
+            $(".disabled").first().trigger("click");
+        });
+        //set state array to the value returned by selection sort
+        obj = document.getElementById("selection");
+        obj.addEventListener("click", function () {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#selection").addClass("disabled");
+            states = selectionSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+
+        /*obj = document.getElementById("cocktail");
+        obj.addEventListener("click", function() {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#cocktail").addClass("disabled");
+            states = cocktailShakerSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });*/
+
+        /*obj = document.getElementById("comb");
+        obj.addEventListener("click", function() {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#comb").addClass("disabled");
+            states = combSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+*/
+        obj = document.getElementById("insertion");
+        obj.addEventListener("click", function () {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#insertion").addClass("disabled");
+            states = insertionSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+
+        obj = document.getElementById("quick");
+        obj.addEventListener("click", function () {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#quick").addClass("disabled");
+            states = startQuickSort(states[currentState].data, 0, states[currentState].data.length - 1);
+            $("#currentState").prop('max', states.length - 1);
+        });
+
+        /* obj = document.getElementById("radixLSD");
+        obj.addEventListener("click", function() {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#radixLSD").addClass("disabled");
+            states = radixSortLSD(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+*/
+        /*obj = document.getElementById("radixMSD");
+        obj.addEventListener("click", function() {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#radixMSD").addClass("disabled");
+            states = startRadixSortMSD(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });*/
+
+        obj = document.getElementById("heap");
+        obj.addEventListener("click", function () {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#heap").addClass("disabled");
+            states = heapSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+
+        obj = document.getElementById("merge");
+        obj.addEventListener("click", function () {
+            $("#reset").trigger("click");
+            enableAllButtons();
+            $("#merge").addClass("disabled");
+            states = startMergeSort(states[currentState].data);
+            $("#currentState").prop('max', states.length - 1);
+        });
+
+        //reset state array. push new rand array.
+        //Draw new base array. Set currentState
+        obj = document.getElementById("reset");
+        obj.addEventListener("click", function () {
+            stop();
+            states = [];
+            init();
+            states.push(new State(rand(array), {}));
+            draw(states[0]);
+            prevState = currentState;
+            currentState = 0;
+            $("#currentState").val(0);
+            $(".disabled").first().trigger("click");
+        });
+
+        obj = document.getElementById("stepNext");
+        obj.addEventListener("click", function () {
+            stop();
+            stepNext();
+        });
+
+        obj = document.getElementById("stepBack");
+        obj.addEventListener("click", function () {
+            stop();
+            stepBack();
+        });
+
+        obj = document.getElementById("start");
+        obj.addEventListener("click", function () {
+            stop();
+            $("#start").addClass("disabled");
+            start();
+        })
+
+        obj = document.getElementById("stop");
+        obj.addEventListener("click", function () {
+            stop();
+        })
+
+        obj = document.getElementById("playBack");
+        obj.addEventListener("click", function () {
+            stop();
+            playBack();
+        })
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>

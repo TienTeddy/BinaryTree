@@ -14,6 +14,16 @@ namespace TreeAVL.Controllers
             return View();
         }
 
+        public ActionResult Sort()
+        {
+            return RedirectToAction("~lesion1/index.html");
+        }
+
+        public ActionResult Tree()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -39,5 +49,7 @@ namespace TreeAVL.Controllers
             data = null;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }
