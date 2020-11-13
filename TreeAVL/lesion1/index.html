@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>CÁC THUẬT TOÁN SẮP XẾP</title>
+    <title>CÁC THUẬT TOÁN SẮP XẾP</title> 
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <nav class="amber">
+   <nav class="amber">
         <div class="nav-wrapper">
             <a href="#" class="brand-logo center">CÁC THUẬT TOÁN SẮP XẾP</a>
         </div>
@@ -33,17 +33,12 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col s12">
+                <div class="col 12">
                 <input class="input-group" id="arr-new">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12">
-                <input class="input-group" id="len1">
+                <input class="input-group" id="len1">        
                 <a id="2" type="button" class="btn btn-group">submit</a>
                 </div>
             </div>
-           
         </div>
         <div id="displayArea" style="background:#404040;"></div>
         <div class="container center-align">
@@ -51,7 +46,7 @@
                 <div class="col s12">
                     <div class="row">
                         <div class="col s4">
-                            <label for="currentState">Current State</label>
+                            <label for="currentState">Giai Đoạn</label>
                             <p class="range-field" id="currentStateRange">
                                 <input type="range" id="currentState" value="0" min="0" max="100" />
                             </p>
@@ -119,47 +114,46 @@
     <script src="state.js"></script>
 
     <script>
-        var array = new Array();
         var LEN = 10;
         // Retrieve the animation speed integer.
         var delay = $("#delay").val();
-        // function randArray(length) {
-        //     //grab the arr
-        //     // tạo mảng gom sl LEN.
-        //     for (var arr = [], i = 0; i < length; ++i) {
-        //         arr[i] = i + 1;
-        //     }
-        //     // http://stackoverflow.com/questions/962802#962890
-        //     var tmp, current, top = arr.length;
+        function randArray(length) {
+            //grab the arr
+            // tạo mảng gom sl LEN.
+            for (var arr = [], i = 0; i < length; ++i) {
+                arr[i] = i + 1;
+            }
+            // http://stackoverflow.com/questions/962802#962890
+            var tmp, current, top = arr.length;
             
-        //     if (top)
-        //         while (--top) {
-        //             current = Math.floor(Math.random() * (top + 1));
-        //             tmp = arr[current];
-        //             arr[current] = arr[top];
-        //             arr[top] = tmp;
-        //         }
+            if (top)
+                while (--top) {
+                    current = Math.floor(Math.random() * (top + 1));
+                    tmp = arr[current];
+                    arr[current] = arr[top];
+                    arr[top] = tmp;
+                }
                
-        //     return arr;
-        // }
+            return arr;
+        }
 
 
-       // var arr = randArray(LEN);
+        var arr = randArray(LEN);
         
         var rects = [];
-        var baseState;
+        var baseState = new State(arr, {});
         //console.log(baseState.data);
         var states = [];
-        //states.push(baseState);
+        states.push(baseState);
         
         var currentState = 0;
         var prevState = 0;
         var two, xdef, maxWidth, paddef, barWidth, primary;
-        // $(document).ready(function () {
-        //     $("#bubble").trigger("click");
-        //     init();
-        //     draw(baseState);
-        // });
+        $(document).ready(function () {
+            $("#bubble").trigger("click");
+            init();
+            draw(baseState);
+        });
 
         $(window).resize(function () {
             init();
@@ -370,11 +364,10 @@
                 
                 var arr1 = $("#arr-new").val(); 
                 
-                 var number_array=0;
+                var array = new Array(); var number_array=0;
                 array = arr1.split(' '); // split string on comma space
                 var c = rand(array);
                 console.log(c);
-                
                 baseState = new State(c, {});
                 states = [];
                 states.push(baseState); // ???
@@ -478,7 +471,7 @@
             stop();
             states = [];
             init();
-            states.push(new State(rand(array), {}));
+            states.push(new State(randArray(LEN), {}));
             draw(states[0]);
             prevState = currentState;
             currentState = 0;
